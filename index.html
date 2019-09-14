@@ -1,5 +1,12 @@
 <html lang="de">
-<head><title></title></head>
+<head>
+    <title></title>
+    <style>
+        video {
+            filter: grayscale(1) invert(1);
+        }
+    </style>
+</head>
 <body id="cssfilters">
 <video autoplay muted></video>
 <p>
@@ -45,6 +52,11 @@
     function handleSuccess(stream) {
         video.srcObject = stream;
     }
+
+    function hadleError(err) {
+        console.log(err)
+    }
+
 </script>
 
 </body>
