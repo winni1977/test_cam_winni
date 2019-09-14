@@ -9,36 +9,11 @@
 </head>
 <body id="cssfilters">
 <video autoplay muted playsinline></video>
-<p>
-    <button class="capture-button">Capture video</button>
-<p>
-    <button id="cssfilters-apply">Apply CSS filter</button>
-</p>
 
 <script>
-    const constraints = {
-        video: { facingMode: 'environment' },
-    };
-    const captureVideoButton =
-        document.querySelector('#cssfilters .capture-button');
-    const cssFiltersButton =
-        document.querySelector('#cssfilters-apply');
-    const video =
-        document.querySelector('#cssfilters video');
-
-    captureVideoButton.onclick = function () {
-        navigator.mediaDevices.getUserMedia(constraints).then(handleSuccess).catch(handleError);
-    };
-
-
-    function handleSuccess(stream) {
-        video.srcObject = stream;
-    }
-
-    function hadleError(err) {
-        console.log(err)
-    }
-
+    navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'},})
+        .then((stream) => document.querySelector('video').srcObject = stream)
+        .catch(() => false);
 </script>
 
 </body>
