@@ -6,14 +6,59 @@
             filter: grayscale(1) invert(1);
         }
     </style>
+    <script src="jsQR.js"></script>
 </head>
 <body id="cssfilters">
 <video autoplay muted playsinline></video>
 
 <script>
+    function take_screenshot() {
+        const video = document.querySelector('video');
+        const width = video.videoWidth;
+        const height = video.videoHeight;
+
+        // factor from visible video to original video
+        const fac_video_container = height / document.querySelector('video').getBoundingClientRect().height;
+
+        // rectangle height of framing container
+        const frame_bound = video.getBoundingClientRect();
+        const frame_bound_size = frame_bound.height;
+
+        // rectange_to cut from original video
+        const rect_height_from_vid = frame_bound.height * fac_video_container;
+
+        const canvas = document.createElement('canvas');
+        canvas.width = frame_bound_size;
+        canvas.height = frame_bound_size;
+        const context = canvas.getContext('2d');
+        context.drawImage(video,
+            (width - rect_height_from_vid) / 2, (height - rect_height_from_vid) / 2,
+            rect_height_from_vid, rect_height_from_vid,
+            0, 0,
+            frame_bound.height, frame_bound.height
+        );
+
+        let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+        let code = jsQR(imageData.data, imageData.width, imageData.height, {
+            inversionAttempts: "dontInvert",
+        });
+
+        if (code) {
+            alert(code)
+            // if (code.data.indexOf('num:') >= 0) {
+            //     this.open_content(code.data.split(' ').slice(-1)[0])
+            // } else if (code.data.indexOf('_') === 0) {
+            //     this.do_login(code.data.slice(1))
+            // }
+        }
+    }
+    
     navigator.mediaDevices.getUserMedia({video: {facingMode: 'environment'},})
         .then((stream) => document.querySelector('video').srcObject = stream)
         .catch(() => false);
+
+    setInterval(take_screenshot, 100)
 </script>
 
 </body>
