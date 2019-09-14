@@ -3,7 +3,7 @@
     <title></title>
     <style>
         video {
-            filter: grayscale(1) invert(1);
+            filter: grayscale(1) invert(1) contrast(1.2);
         }
     </style>
     <script src="jsQR.js"></script>
@@ -41,11 +41,11 @@
         let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
         let code = jsQR(imageData.data, imageData.width, imageData.height,
-            // {inversionAttempts: "dontInvert",}
+            {inversionAttempts: "dontInvert",}
         );
 
         if (code) {
-            alert(code)
+            alert(code.data)
             // if (code.data.indexOf('num:') >= 0) {
             //     this.open_content(code.data.split(' ').slice(-1)[0])
             // } else if (code.data.indexOf('_') === 0) {
