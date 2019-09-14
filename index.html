@@ -41,7 +41,7 @@
         let imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
         let code = jsQR(imageData.data, imageData.width, imageData.height,
-            {inversionAttempts: "dontInvert",}
+            // {inversionAttempts: "dontInvert",}
         );
 
         if (code) {
